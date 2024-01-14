@@ -1,4 +1,5 @@
 from bs4 import BeautifulSoup
+from collections import defaultdict
 import requests
 
 base_url = 'https://github.com/MugPand'
@@ -9,9 +10,6 @@ def get_pinned_repos():
 
     if response.status_code == 200:
         soup = BeautifulSoup(response.text, 'html.parser')
-
-        title = soup.title.text
-        print(f'Title: {title}')
 
         print("===========================================")
 
@@ -32,23 +30,26 @@ def get_all_repos():
 
     if response.status_code == 200:
         soup = BeautifulSoup(response.text, 'html.parser')
-
-        title = soup.title.text
-        print(f'Title: {title}')
+        data = []
 
         print("===========================================")
 
         repo_descs = soup.find_all("a", itemprop="name codeRepository")
         for repo in repo_descs:
-            print(repo)
+            #print(repo)
+            desc_text = repo.get_text(strip=True)
+            data.append([desc_text])
             # print(repo.get_text(strip=True))
 
         print("===========================================")
 
         repo_titles = soup.find_all("p", itemprop="description")
-        for title in repo_titles:
-            print(title.get_text(strip=True))
+        for idx, title in enumerate(repo_titles):
+            title_text = title.get_text(strip=True)
+            data[idx].append(title_text)
+            # print(title.get_text(strip=True))
 
+        print(data)
     else:
         print(f'Error: Unable to fetch the page. Status code {response.status_code}')
 
