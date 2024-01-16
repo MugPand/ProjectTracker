@@ -38,6 +38,7 @@ def get_all_repos():
         for repo in repo_descs:
             #print(repo)
             desc_text = repo.get_text(strip=True)
+            if desc_text == 'MugPand' or desc_text == 'Alz-Check': continue
             data.append([desc_text])
             # print(repo.get_text(strip=True))
 
@@ -50,7 +51,13 @@ def get_all_repos():
             # print(title.get_text(strip=True))
 
         print(data)
+        return data
     else:
         print(f'Error: Unable to fetch the page. Status code {response.status_code}')
 
-get_all_repos()
+data = get_all_repos()
+
+with open('out.txt', 'w') as f:
+    for name, desc in data:
+        f.write(name + ', ' + desc + '\n')
+
