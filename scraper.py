@@ -61,13 +61,22 @@ def get_all_repos():
     else:
         print(f'Error: Unable to fetch the page. Status code {response.status_code}')
 
+unique_data = set()
+
 data = get_all_repos()
 
 with open('all_repos.txt', 'w') as f:
     for name, desc in data:
         f.write(name + ', ' + desc + '\n')
+        unique_data.add((name, desc))
 
 data = get_pinned_repos()
+
 with open('pinned_repos.txt', 'w') as f:
     for name, desc in data:
+        f.write(name + ', ' + desc + '\n')
+        unique_data.add((name, desc))
+
+with open('unique.txt', 'w') as f:
+    for name, desc in unique_data:
         f.write(name + ', ' + desc + '\n')
