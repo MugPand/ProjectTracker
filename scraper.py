@@ -2,8 +2,9 @@ from bs4 import BeautifulSoup
 from collections import defaultdict
 import requests
 
-base_url = 'https://github.com/MugPand'
-repos_url = 'https://github.com/MugPand?tab=repositories'
+username = 'MugPand'
+base_url = 'https://github.com/' + username
+repos_url = 'https://github.com/' + username + '?tab=repositories'
 
 def get_pinned_repos():
     response = requests.get(base_url)
