@@ -1,11 +1,11 @@
 from bs4 import BeautifulSoup
-from collections import defaultdict
 import requests
 
 username = 'MugPand'
 base_url = 'https://github.com/' + username
 repos_url = 'https://github.com/' + username + '?tab=repositories'
 
+# extracts the (up to 6) pinned repos on user profile
 def get_pinned_repos():
     response = requests.get(base_url)
 
@@ -32,6 +32,7 @@ def get_pinned_repos():
     else:
         print(f'Error: Unable to fetch the page. Status code {response.status_code}')
 
+# extracts all public repos associated with a user
 def get_all_repos():
     response = requests.get(repos_url)
 
@@ -62,10 +63,11 @@ def get_all_repos():
     else:
         print(f'Error: Unable to fetch the page. Status code {response.status_code}')
 
-unique_data = set()
 
+unique_data = set()
 data = get_all_repos()
 
+# output data to files
 with open('all_repos.txt', 'w') as f:
     for name, desc in data:
         f.write(name + ', ' + desc + '\n')
